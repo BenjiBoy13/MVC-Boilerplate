@@ -1,0 +1,1 @@
+This is the models folder, this is where you connect to the db class and make querys
