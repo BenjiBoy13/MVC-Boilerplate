@@ -2,16 +2,16 @@
 
 //DB params
 define('DB_HOST', 'localhost');
-define('DB_USER', '');
+define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', '');
+define('DB_NAME', 'db');
 
 //App root
 define('APPROOT', dirname(dirname(__FILE__)));
 
 // URL Root
-define('URLROOT', 'Your url');
+define('URLROOT', 'http://development.sasquatch');
 
 //Site name
-define('SITENAME', 'Your Sitename');
+define('SITENAME', 'Sasquatch');
 

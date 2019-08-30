@@ -1,13 +1,9 @@
 <?php
 
-/*
- * App Core Class
- * Create URL and loads core controller
- * URL FORMAT - /controller/method/params
- */
+namespace App\Libraries;
 
 class Core {
-    protected $currentController = "Pages";
+    protected $currentController = "App\\Controllers\\HomeController";
     protected $currentMethod = "index";
     protected $params = [];
 
@@ -15,18 +11,15 @@ class Core {
     {
         $url = $this->getUrl();
 
-        //Look in controllers for first index or value
-        if (file_exists('../app/controllers/' . ucwords($url[0]) . '.php'))
+        //Look in Controllers for first index or value
+        if (\class_exists('App\\Controllers\\' . ucwords($url[0]) . 'Controller'))
         {
             //If exists, set as controller
-            $this->currentController = ucwords($url[0]);
+            $this->currentController = 'App\\Controllers\\' . ucwords($url[0]) . 'Controller';
 
             // Unset 0 index
             unset($url[0]);
         }
-
-        //Require the current controller
-        require_once '../app/controllers/' . $this->currentController . '.php';
 
         //Instantiate it
         $this->currentController = new $this->currentController;

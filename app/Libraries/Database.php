@@ -1,12 +1,6 @@
 <?php
 
-/*
- * PDO database class
- * connect to db
- * create prepare statements
- * bind values
- * return rows and results
- */
+namespace App\Libraries;
 
 class Database
 {
@@ -24,16 +18,16 @@ class Database
         //set our dsn
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
         $options = array(
-            PDO::ATTR_PERSISTENT => true,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            \PDO::ATTR_PERSISTENT => true,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
         );
 
         //Create PDO instance
         try
         {
-            $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
+            $this->dbh = new \PDO($dsn, $this->user, $this->pass, $options);
         }
-        catch (PDOException $e)
+        catch (\PDOException $e)
         {
             $this->error = $e->getMessage();
             echo $this->error;
@@ -54,19 +48,19 @@ class Database
             switch (true)
             {
                 case is_int($value):
-                    $type = PDO::PARAM_INT;
+                    $type = \PDO::PARAM_INT;
                     break;
 
                 case is_bool($value):
-                    $type = PDO::PARAM_BOOL;
+                    $type = \PDO::PARAM_BOOL;
                     break;
 
                 case is_null($value):
-                    $type = PDO::PARAM_NULL;
+                    $type = \PDO::PARAM_NULL;
                     break;
 
                 default:
-                    $type = PDO::PARAM_STR;
+                    $type = \PDO::PARAM_STR;
                     break;
             }
         }
@@ -84,14 +78,14 @@ class Database
     public function resultSet()
     {
         $this->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+        return $this->statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
     //Get single content
     public function single()
     {
         $this->execute();
-        return $this->statement->fetch(PDO::FETCH_OBJ);
+        return $this->statement->fetch(\PDO::FETCH_OBJ);
     }
 
     //Get row count

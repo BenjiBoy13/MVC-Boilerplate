@@ -1,0 +1,20 @@
+{
+    "name": "benjiboy/sasquatch",
+    "description": "This is a mini framework based on a MVC mini framework I found on a course but with the psr-4 php features such as namespaces",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "BenjiBoy13",
+            "email": "ben99.planetatierra@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "twig/twig": "^2.0"
+    }
+}
