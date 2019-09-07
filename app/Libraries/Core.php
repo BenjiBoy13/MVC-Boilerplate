@@ -2,6 +2,8 @@
 
 namespace App\Libraries;
 
+use App\Services\SessionManager;
+
 class Core {
     protected $currentController = "App\\Controllers\\HomeController";
     protected $currentMethod = "index";
@@ -39,8 +41,23 @@ class Core {
         // Get params
         $this->params = $url ? array_values($url) : [];
 
-        // Call a callback with arrays of params
-        call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
+        $reflection = new \ReflectionMethod($this->currentController, $this->currentMethod);
+        $requiredMethods = $reflection->getParameters();
+        $parametersToBePassed = array();
+
+        foreach ($requiredMethods as $requiredMethod) {
+            if ($requiredMethod->getClass()) {
+                $service = $requiredMethod->getClass()->name;
+                $service = new $service;
+                array_push($parametersToBePassed, $service);
+            } else {
+                array_push($parametersToBePassed, $this->params);
+            }
+        }
+
+        $method = $this->currentMethod;
+
+        \call_user_func_array(array($this->currentController, $method), $parametersToBePassed);
 
     }
 

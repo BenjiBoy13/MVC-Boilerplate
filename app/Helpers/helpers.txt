@@ -1,1 +1,0 @@
-This is the helpers folder, inside here you can place your helpers methods and classes.

@@ -35,13 +35,13 @@ class Database
     }
 
     //Prepare statements with query
-    public function query($sql)
+    protected function query($sql)
     {
         $this->statement = $this->dbh->prepare($sql);
     }
 
     //Bind values
-    public function bind($param, $value, $type = null)
+    protected function bind($param, $value, $type = null)
     {
         if (is_null($type))
         {
@@ -69,27 +69,27 @@ class Database
     }
 
     //Execute the prepared statement
-    public function execute()
+    private function execute()
     {
         return $this->statement->execute();
     }
 
     //Get result set as array of objects
-    public function resultSet()
+    protected function resultSet()
     {
         $this->execute();
         return $this->statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
     //Get single content
-    public function single()
+    protected function single()
     {
         $this->execute();
         return $this->statement->fetch(\PDO::FETCH_OBJ);
     }
 
     //Get row count
-    public function rowCount()
+    protected function rowCount()
     {
         return $this->statement->rowCount();
     }
