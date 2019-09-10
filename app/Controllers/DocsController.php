@@ -4,18 +4,17 @@
 namespace App\Controllers;
 
 use App\Libraries\BaseController;
-use App\Libraries\ControllerInterface;
-use App\Services\SessionManager;
+use App\Services\SessionService;
 
 
-class DocsController extends BaseController implements ControllerInterface
+class DocsController extends BaseController
 {
     public function index(): void
     {
         $this->renderView('docs/index.html.twig');
     }
 
-    public function about(SessionManager $sessionManager, array $params)
+    public function about(SessionService $sessionManager, array $params)
     {
         $sessionManager->setSession("name", 'Benjamin Gil');
 

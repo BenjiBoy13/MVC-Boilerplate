@@ -2,6 +2,17 @@
 
 namespace App\Libraries;
 
+/**
+ * -------------------------------------------------------------------
+ * Database Class
+ * -------------------------------------------------------------------
+ *
+ * The database class offers methods to make and bind queries to the
+ * previously configured database
+ *
+ * @autor Benjamin Gil FLores
+ * @version 1.0.0
+ */
 class Database
 {
     private $host = DB_HOST;
@@ -13,6 +24,13 @@ class Database
     private $statement;
     private $error;
 
+    /**
+     * The database constructor makes the connection to the DB and makes it
+     * persist
+     *
+     * @thorws \PDOException if the connection cant be established
+     * @return void;
+     */
     public function __construct()
     {
         //set our dsn
@@ -34,13 +52,23 @@ class Database
         }
     }
 
-    //Prepare statements with query
+    /**
+     * Prepares an sql statement ready to be executed
+     *
+     * @param $sql
+     */
     protected function query($sql)
     {
         $this->statement = $this->dbh->prepare($sql);
     }
 
-    //Bind values
+    /**
+     * Bind the parameters for the previously prepared statement
+     *
+     * @param $param
+     * @param $value
+     * @param $type
+     */
     protected function bind($param, $value, $type = null)
     {
         if (is_null($type))
@@ -68,30 +96,36 @@ class Database
         $this->statement->bindValue($param, $value, $type);
     }
 
-    //Execute the prepared statement
+    /**
+     * Executes the asked query
+     *
+     * @return Object
+     */
     private function execute()
     {
         return $this->statement->execute();
     }
 
-    //Get result set as array of objects
+    /**
+     * Gets all of the query results
+     *
+     * @return Object
+     */
     protected function resultSet()
     {
         $this->execute();
         return $this->statement->fetchAll(\PDO::FETCH_OBJ);
     }
 
-    //Get single content
+    /**
+     * Gets the first result of the executed query
+     *
+     * @return Object
+     */
     protected function single()
     {
         $this->execute();
         return $this->statement->fetch(\PDO::FETCH_OBJ);
-    }
-
-    //Get row count
-    protected function rowCount()
-    {
-        return $this->statement->rowCount();
     }
 }
 

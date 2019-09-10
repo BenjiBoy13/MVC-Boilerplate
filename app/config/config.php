@@ -1,17 +1,17 @@
 <?php
 
-//DB params
+// Parameters for the database connection
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'incauto');
 
-//App root
+// App root directory
 define('APPROOT', dirname(dirname(__FILE__)));
 
-// URL Root
+// Your hostname url
 define('URLROOT', 'http://development.sasquatch');
 
-//Site name
+// Site name
 define('SITENAME', 'Sasquatch');
 

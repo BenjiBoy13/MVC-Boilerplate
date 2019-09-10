@@ -2,13 +2,27 @@
 
 namespace App\Libraries;
 
-use App\Services\SessionManager;
-
+/**
+ * -------------------------------------------------------------------
+ * Core Class
+ * -------------------------------------------------------------------
+ *
+ * This class implements the methods that handles the url requested by
+ * the user and serves up the controller needed for that url and
+ * initialize the required controller method with the required parameters
+ *
+ * @autor Benjamin Gil FLores
+ * @version 1.0.0
+ */
 class Core {
     protected $currentController = "App\\Controllers\\HomeController";
     protected $currentMethod = "index";
     protected $params = [];
 
+    /**
+     * The class constructor calls the getUrl method to retrieve the url
+     * asked by the client and serves the required controller and method
+     */
     public function __construct()
     {
         $url = $this->getUrl();
@@ -61,6 +75,11 @@ class Core {
 
     }
 
+    /**
+     * This method retrieves the url asked by client
+     *
+     * @return string
+     */
     public function getUrl()
     {
         if (isset($_GET['url']))
