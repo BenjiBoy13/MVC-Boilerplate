@@ -2,6 +2,9 @@
 
 namespace App\Libraries;
 
+use App\Controllers\HomeController;
+use App\Controllers\NoController;
+
 /**
  * -------------------------------------------------------------------
  * Core Class
@@ -15,7 +18,7 @@ namespace App\Libraries;
  * @version 1.0.0
  */
 class Core {
-    protected $currentController = "App\\Controllers\\HomeController";
+    protected $currentController = "App\\Controllers\\NoController";
     protected $currentMethod = "index";
     protected $params = [];
 
@@ -26,6 +29,13 @@ class Core {
     public function __construct()
     {
         $url = $this->getUrl();
+
+        // If the url is null we have no parameters or pages, we render home
+        if ($url == []) {
+            $home = new HomeController();
+            $home->index();
+            return;
+        }
 
         //Look in Controllers for first index or value
         if (\class_exists('App\\Controllers\\' . ucwords($url[0]) . 'Controller'))
@@ -49,6 +59,11 @@ class Core {
                 $this->currentMethod = $url[1];
 
                 unset($url[1]);
+            } else {
+                // If the method does not exist return a 404 page
+                $noController = new NoController();
+                $noController->index();
+                return;
             }
         }
 
@@ -78,9 +93,9 @@ class Core {
     /**
      * This method retrieves the url asked by client
      *
-     * @return string
+     * @return array
      */
-    public function getUrl()
+    public function getUrl(): array
     {
         if (isset($_GET['url']))
         {
@@ -89,6 +104,8 @@ class Core {
             $url = explode('/', $url);
             return $url;
         }
+
+        return array();
     }
 
 }

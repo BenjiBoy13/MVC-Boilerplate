@@ -39,13 +39,14 @@ class BaseController
      *
      * @param $view
      * @param $data
-     * @throws \Exception if tiwg cant find the view
+     * @throws \Exception if twig cant find the view
      * @return void
      */
     public function renderView($view, $data = [])
     {
         $twigLoader = new FilesystemLoader('views');
         $twig = new Environment($twigLoader);
+        $twig->addGlobal('site', SITENAME);
 
         try {
             echo $data ? $twig->render($view, $data) : $twig->render($view);

@@ -23,30 +23,50 @@ class SessionService
      */
     public function __construct()
     {
+        ini_set('session.name', SITENAME . "SID");
         \session_start();
+
+        // Every 30min we regenerate the session id to prevent session fixation
+        if (!isset($_SESSION['regenerate'])) {
+            $_SESSION['regenerate'] = time();
+        } else if(time() - $_SESSION['regenerate'] > 1800) {
+            \session_regenerate_id();
+            unset($_SESSION['regenerate']);
+        }
     }
 
     /**
      * Gets a session property and returns it
      *
-     * @param $sessionName
+     * @param $id
      * @return String
      */
-    public function getSession($sessionName)
+    public function getSession($id): string
     {
-        return $_SESSION[$sessionName];
+        return isset($_SESSION[$id]) ? $_SESSION[$id] : '';
     }
 
     /**
      * Allocates a new variable inside the session magic
      * variable
      *
-     * @param $sessionName
+     * @param $id
      * @param $value
      * @return void
      */
-    public function setSession($sessionName, $value)
+    public function setSession($id, $value): void
     {
-        $_SESSION[$sessionName] = $value;
+        $_SESSION[$id] = $value;
+    }
+
+    /**
+     * Deletes the active session
+     *
+     * @return void
+     */
+    public function destroySession(): void
+    {
+        unset($_SESSION);
+        \session_destroy();
     }
 }
