@@ -37,14 +37,25 @@ class Core {
             return;
         }
 
-        //Look in Controllers for first index or value
-        if (\class_exists('App\\Controllers\\' . ucwords($url[0]) . 'Controller'))
-        {
-            //If exists, set as controller
-            $this->currentController = 'App\\Controllers\\' . ucwords($url[0]) . 'Controller';
+        $controllersDirectories = array_filter(glob(APPROOT .  '\Controllers\*', GLOB_ONLYDIR));
 
-            // Unset 0 index
-            unset($url[0]);
+        foreach ($controllersDirectories as $key => $controllerDirectory) {
+            $controllersDirectories[$key] = str_replace(APPROOT . '\Controllers\\', "", $controllerDirectory);
+            $controllersDirectories[$key] = $controllersDirectories[$key] . "\\";
+        }
+
+        array_unshift($controllersDirectories, '');
+
+        foreach ($controllersDirectories as $controllerDirectory) {
+            //Look in Controllers for first index or value
+            if (\class_exists('App\\Controllers\\' . $controllerDirectory . ucwords($url[0]) . 'Controller'))
+            {
+                //If exists, set as controller
+                $this->currentController = 'App\\Controllers\\' . $controllerDirectory . ucwords($url[0]) . 'Controller';
+
+                // Unset 0 index
+                unset($url[0]);
+            }
         }
 
         //Instantiate it
@@ -107,5 +118,4 @@ class Core {
 
         return array();
     }
-
 }
